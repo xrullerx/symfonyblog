@@ -1,0 +1,72 @@
+<?php
+
+namespace Blogger\BlogBundle\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Blogger\BlogBundle\Entity\Comment;
+use Blogger\BlogBundle\Form\CommentType;
+use Symfony\Component\HttpFoundation\Request;
+
+/**
+ * Контроллер коментариев блога.
+ */
+class CommentController extends Controller
+{
+    // Новый комментарий.
+    public function newAction($blog_id)
+    {
+        $blog = $this->getBlog($blog_id);
+
+        $comment = new Comment();
+        $comment->setBlog($blog);
+        $comment->setUser($_SESSION['USER']);
+        $form   = $this->createForm(CommentType::class, $comment);
+
+        return $this->render('BloggerBlogBundle:Comment:form.html.twig', array(
+                'comment' => $comment,
+                'form'   => $form->createView()));
+    }
+    
+    // Добавление комментария к блогу.
+    public function createAction(Request $request, $blog_id)
+    {
+        $blog = $this->getBlog($blog_id);
+
+        $comment  = new Comment();
+        $comment->setBlog($blog);
+        $form    = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) 
+        {
+            // Если данные валидны - обновляем блог с комментариями.
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('BloggerBlogBundle_blog_show', array(
+                        'id'    => $comment->getBlog()->getId(),
+                        'slug'  => $comment->getBlog()->getSlug())) .
+                        '#comment-' . $comment->getId());
+        }
+        
+        // Создаем страницу создания комментария.
+        return $this->render('BloggerBlogBundle:Comment:create.html.twig', array(
+            'comment' => $comment,
+            'form'    => $form->createView()));
+    }
+    
+    // Получение блога по id.
+    protected function getBlog($blog_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $blog = $em->getRepository('BloggerBlogBundle:Blog')->find($blog_id);
+
+        if (!$blog) 
+        {
+            throw $this->createNotFoundException('Невозможно найти в блоге');
+        }
+        return $blog;
+    }
+}

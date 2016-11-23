@@ -1,0 +1,13 @@
+{# empty Twig template #}
+{% extends '::base.html.twig' %}
+
+{% block sidebar %}
+    {{ render(controller('BloggerBlogBundle:Page:sidebar' ))}} 
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/bloggerblog/css/blog.css') }}" type="text/css" rel="stylesheet" />
+    <link href="{{ asset('bundles/bloggerblog/css/sidebar.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+

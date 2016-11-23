@@ -1,0 +1,22 @@
+{% extends 'BloggerBlogBundle::layout.html.twig' %}
+
+{% block title %}Регистрация нового пользователя{% endblock%}
+
+{% block body %}
+    <header>
+        <h1>Новый пользователь</h1>
+    </header>
+
+    {{ form_start(form, { 'action': path('BloggerBlogBundle_user_create'), 'method': 'POST', 'attr': {'class': 'blogger'} }) }}
+    {{ form_errors(form) }}
+
+    {{ form_row(form.name) }}
+    {{ form_row(form.psw) }}
+    {{ form_row(form.repeatPsw) }}
+    {{ form_rest(form) }}
+
+    <br>
+    <br>
+    <input type="submit" value="Зарегестрировать" />
+
+{% endblock %}

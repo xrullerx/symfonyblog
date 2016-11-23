@@ -1,0 +1,38 @@
+<?php
+
+namespace Blogger\BlogBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
+
+
+/**
+ * @ORM\Entity(repositoryClass="Blogger\BlogBundle\Entity\Repository\BlogRepository")
+ * @ORM\Table(name="user")
+ * @ORM\HasLifecycleCallbacks()
+ */
+class User
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $Name;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $Psw;
+    
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
+    protected $image;
+}
