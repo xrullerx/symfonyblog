@@ -63,13 +63,14 @@ class PageController extends Controller
         
         $latestComments = $em->getRepository('BloggerBlogBundle:Comment')
                          ->getLatestComments($commentLimit);
-        if (empty($_SESSION['USER']))
-        {
-            $_SESSION['USER'] = 'Guest';
-        }            
         return $this->render('BloggerBlogBundle:Page:sidebar.html.twig', array(
             'latestComments'    => $latestComments,
             'tags'              => $tagWeights,
-            'user'              => $_SESSION['USER']));        
+            'user'              => $this->getUser()));        
     }
+    public function adminAction()
+    {
+        return $this->render('BloggerBlogBundle:Page:admin.html.twig');
+        //return new Response('<html><body>Admin page!</body></html>');
+    }    
 }

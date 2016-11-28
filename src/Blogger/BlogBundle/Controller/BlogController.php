@@ -18,7 +18,6 @@ class BlogController extends Controller
      */
     public function showAction($id, $slug)
     {
-        $_SESSION['USER'] = 'Guest';
         $em = $this->getDoctrine()->getManager();
 
         $blog = $em->getRepository('BloggerBlogBundle:Blog')->find($id);
@@ -41,6 +40,8 @@ class BlogController extends Controller
      */    
     public function createAction(Request $request, $blog_id)
     {
+        // Только админ может создавать/редактировать блог.
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
         // В зависимости от $blog_id - редактируем или создаем блог
         if ($blog_id > 0)
         {

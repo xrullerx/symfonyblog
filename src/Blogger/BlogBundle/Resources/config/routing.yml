@@ -50,3 +50,20 @@ BloggerBlogBundle_signin:
     requirements:
         methods:  GET|POST   
         blog_id: \d+
+
+BloggerBlogBundle_blog_admin:
+    path:  /admin
+    defaults: { _controller: "BloggerBlogBundle:Page:admin" }
+    requirements:
+        methods:  GET
+
+BloggerBlogBundle_blog_login:
+    path:  /login
+    defaults: { _controller: "BloggerBlogBundle:Security:login" }
+    requirements:
+        methods:  GET|POST 
+        
+BloggerBlogBundle_blog_logout:
+    path:  /logout
+    requirements:
+        methods:  GET        

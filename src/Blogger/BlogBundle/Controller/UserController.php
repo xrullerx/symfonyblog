@@ -25,7 +25,6 @@ class UserController extends Controller
             if ($user->equalsPsw())
             {
                 $em->flush();
-                $_SESSION['USER'] = $user->getName();
                 return $this->redirect($this->generateUrl('BloggerBlogBundle_homepage'));
             }
             // Повторяем регистрацию.
@@ -52,12 +51,10 @@ class UserController extends Controller
             if ($userrep)
             {                
                 $em->clear();
-                $_SESSION['USER'] = $user->getName();
                 return $this->redirect($this->generateUrl('BloggerBlogBundle_homepage'));            
             }
             // остаемся на странице. 
             $em->clear();
-            $_SESSION['USER'] = 'Guest';
         }
         return $this->render('BloggerBlogBundle:user:signin.html.twig', array(
             'form' => $form->createView()));        
